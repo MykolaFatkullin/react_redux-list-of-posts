@@ -5,7 +5,7 @@ import { getUserPosts } from '../api/posts';
 
 const initialState = {
   items: [] as Post[],
-  loaded: true,
+  loaded: false,
   hasError: false,
 };
 
@@ -31,6 +31,7 @@ const postsSlice = createSlice({
     });
     builder.addCase(loadUsersPosts.pending, state => {
       state.loaded = false;
+      state.hasError = false;
     });
     builder.addCase(loadUsersPosts.rejected, state => {
       state.hasError = true;

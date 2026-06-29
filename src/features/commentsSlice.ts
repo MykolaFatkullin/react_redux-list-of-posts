@@ -5,7 +5,7 @@ import { createComment, deleteComment, getPostComments } from '../api/comments';
 
 const initialState = {
   items: [] as Comment[],
-  loaded: true,
+  loaded: false,
   hasError: false,
 };
 
@@ -41,6 +41,7 @@ export const commentsSlice = createSlice({
     });
     builder.addCase(getAllComments.pending, state => {
       state.loaded = false;
+      state.hasError = false;
     });
     builder.addCase(getAllComments.rejected, state => {
       state.hasError = true;
@@ -52,6 +53,7 @@ export const commentsSlice = createSlice({
     });
     builder.addCase(commentCreate.pending, state => {
       state.loaded = false;
+      state.hasError = false;
     });
     builder.addCase(commentCreate.rejected, state => {
       state.hasError = true;
@@ -63,6 +65,7 @@ export const commentsSlice = createSlice({
     });
     builder.addCase(commentDelete.pending, state => {
       state.loaded = false;
+      state.hasError = false;
     });
     builder.addCase(commentDelete.rejected, state => {
       state.hasError = true;

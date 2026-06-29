@@ -33,7 +33,11 @@ export const commentDelete = createAsyncThunk(
 export const commentsSlice = createSlice({
   name: 'comments',
   initialState,
-  reducers: {},
+  reducers: {
+    removeComment: (state, action) => {
+      state.items = state.items.filter(item => item.id !== action.payload);
+    },
+  },
   extraReducers: builder => {
     builder.addCase(getAllComments.fulfilled, (state, action) => {
       state.items = action.payload;
@@ -51,27 +55,12 @@ export const commentsSlice = createSlice({
       state.items.push(action.payload);
       state.loaded = true;
     });
-    builder.addCase(commentCreate.pending, state => {
-      state.loaded = false;
-      state.hasError = false;
-    });
-    builder.addCase(commentCreate.rejected, state => {
-      state.hasError = true;
-      state.loaded = true;
-    });
     builder.addCase(commentDelete.fulfilled, (state, action) => {
       state.items = state.items.filter(item => item.id !== action.payload);
-      state.loaded = true;
-    });
-    builder.addCase(commentDelete.pending, state => {
-      state.loaded = false;
-      state.hasError = false;
-    });
-    builder.addCase(commentDelete.rejected, state => {
-      state.hasError = true;
       state.loaded = true;
     });
   },
 });
 
 export default commentsSlice.reducer;
+export const { removeComment } = commentsSlice.actions;

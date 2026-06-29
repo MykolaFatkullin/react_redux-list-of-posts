@@ -9,6 +9,7 @@ import {
   commentCreate,
   commentDelete,
   getAllComments,
+  removeComment,
 } from '../features/commentsSlice';
 
 type Props = {
@@ -17,10 +18,11 @@ type Props = {
 
 export const PostDetails: React.FC<Props> = ({ post }) => {
   const dispatch = useAppDispatch();
-  const commentsState = useAppSelector(state => state.comments);
-  const loaded = commentsState.loaded;
-  const hasError = commentsState.hasError;
-  const comments = commentsState.items;
+  const {
+    items: comments,
+    loaded,
+    hasError,
+  } = useAppSelector(state => state.comments);
 
   const [visible, setVisible] = useState(false);
 
@@ -41,6 +43,7 @@ export const PostDetails: React.FC<Props> = ({ post }) => {
   };
 
   const deleteComment = async (commentId: number) => {
+    dispatch(removeComment(commentId));
     await dispatch(commentDelete(commentId));
   };
 
